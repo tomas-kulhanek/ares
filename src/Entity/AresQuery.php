@@ -2,8 +2,6 @@
 
 namespace HelpPC\Ares\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
@@ -52,23 +50,22 @@ class AresQuery
     protected string $requestId = 'ares_dotaz';
 
     /**
-     * @var Collection<int, Query>
+     * @var Query[]
      * @Serializer\XmlList(inline = true, entry = "are:Dotaz")
      */
-    protected Collection $queries;
+    protected array $queries;
 
     public function __construct(string $applicantsEmail)
     {
         $this->applicantsEmail = $applicantsEmail;
-        $this->queries = new ArrayCollection();
         $this->queryDateTime = new \DateTimeImmutable();
         $this->queryCount = 0;
     }
 
     public function addQuery(Query $query): AresQuery
     {
-        $this->queries->add($query);
-        $this->queryCount++;
+        $this->queries[] = $query;
+        $this->queryCount = count($this->queries);
         return $this;
     }
 }
