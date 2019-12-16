@@ -2,9 +2,7 @@
 
 namespace HelpPC\Ares\Enum;
 
-use Consistence\Enum\Enum;
-
-class SearchType extends Enum
+class SearchType
 {
 
     const FREE = 'FREE';
