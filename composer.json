@@ -1,7 +1,7 @@
 {
   "name": "helppc/ares",
   "type": "library",
-  "description": "dasd",
+  "description": "Communication with ARES (Czech business register)",
   "license": [
     "MIT",
     "BSD-3-Clause",
@@ -11,7 +11,6 @@
   "require": {
     "php": ">=7.4",
     "ext-xml": "*",
-    "ext-mbstring": "*",
     "ext-curl": "*",
     "ext-openssl": "*",
     "ext-dom": "*",
