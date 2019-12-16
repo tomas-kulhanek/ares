@@ -13,13 +13,12 @@ class Response
 {
 
     /**
-     * @var Error[]
-     * @Serializer\SkipWhenEmpty()
-     * @Serializer\Type("array<HelpPC\Ares\Entity\Error>")
-     * @Serializer\XmlList(entry="Error", inline=true, namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1")
-     * @Serializer\XmlElement(cdata=false,namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1")
+     * @var int
+     * @Serializer\Type("int")
+     * @Serializer\XmlElement(cdata=false)
+     * @Serializer\SerializedName("are:Pomocne_ID")
      */
-    protected array $error;
+    protected int $id;
 
     /**
      * @var int
@@ -46,11 +45,11 @@ class Response
     protected array $responseData;
 
     /**
-     * @return Error[]
+     * @return int
      */
-    public function getErrors(): array
+    public function getId(): int
     {
-        return $this->error;
+        return $this->id;
     }
 
     /**
