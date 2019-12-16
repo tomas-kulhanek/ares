@@ -1,0 +1,40 @@
+{
+  "name": "helppc/ares",
+  "type": "library",
+  "description": "dasd",
+  "license": [
+    "MIT",
+    "BSD-3-Clause",
+    "GPL-2.0",
+    "GPL-3.0"
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-xml": "*",
+    "ext-mbstring": "*",
+    "ext-curl": "*",
+    "ext-openssl": "*",
+    "ext-dom": "*",
+    "guzzlehttp/guzzle": "^6.3",
+    "symfony/yaml": "^4.2",
+    "helppc/serializer": "^2.0"
+  },
+  "require-dev": {
+    "nette/tester": "^2.3",
+    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-nette": "^0.12"
+  },
+  "autoload": {
+    "psr-4": {
+      "HelpPC\\Ares\\": "src"
+    }
+  },
+  "minimum-stability": "stable",
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "platform": {
+      "php": "7.4"
+    }
+  }
+}
