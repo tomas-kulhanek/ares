@@ -121,6 +121,9 @@ class Response
         return $this->tradeRegister;
     }
 
+    /**
+     * @return Collection<int, Specialization>
+     */
     public function getSpecialization(): Collection
     {
         return $this->specialization;
