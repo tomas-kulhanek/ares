@@ -4,7 +4,10 @@ namespace HelpPC\Ares;
 
 use HelpPC\Ares\Entity\AresQuery;
 use HelpPC\Ares\Entity\Response\AresResponse;
+use HelpPC\Ares\Entity\Response\Response;
+use HelpPC\Ares\Exception\EmptyRequestException;
 use JMS\Serializer\SerializerInterface;
+use Tracy\Debugger;
 
 class Client
 {
@@ -56,6 +59,9 @@ class Client
 
     public function send(AresQuery $request): AresResponse
     {
+        if (!$request->isValid()) {
+            throw new EmptyRequestException();
+        }
         $request = $this->serializer->serialize($request, 'xml');
         $request = $this->getXmlDocument($request);
 
@@ -76,18 +82,18 @@ class Client
             'Accept-Encoding' => 'gzip,deflate',
             'Content-Type' => 'text/xml; charset=utf-8',
             'SOAPAction' => '""',
-            // 'User-Agent' => 'HelpPC PHP Client'
 
         ];
+        $curl = [];
+        $curl[CURLOPT_TIMEOUT] = 60 * 2;
+        $curl[CURLOPT_CONNECTTIMEOUT] = 6;
 
-
-        $response = $this->guzzleHttp->post(self::WEBSERVICE_URL, ['headers' => $headers, 'body' => $requestDocument->saveXML()]);
-
+        \Safe\file_put_contents('/application/www/request.xml', $requestDocument->saveXML());
+        $response = $this->guzzleHttp->post(self::WEBSERVICE_URL, ['curl' => $curl, 'headers' => $headers, 'body' => $requestDocument->saveXML()]);
 
         $response = $response->getBody()->getContents();
         $soapResponse = $this->getXmlDocument($response);
         $response = $this->getValueByXpath($soapResponse, '//' . $soapResponse->documentElement->prefix . ':Body');
-
         return $this->serializer->deserialize($response, AresResponse::class, 'xml');
     }
 

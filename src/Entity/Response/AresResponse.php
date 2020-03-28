@@ -2,11 +2,13 @@
 
 namespace HelpPC\Ares\Entity\Response;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @Serializer\XmlNamespace(uri="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1",prefix="are")
- * @Serializer\XmlRoot(name="are:Ares_odpovedi", namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1")
+ * @Serializer\XmlNamespace(uri="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer_basic/v_1.0.3",prefix="are")
+ * @Serializer\XmlRoot(name="are:Ares_odpovedi", namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer_basic/v_1.0.3")
  */
 class AresResponse
 {
@@ -24,14 +26,14 @@ class AresResponse
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("dotaz_pocet")
      */
-    protected int $queryCount;
+    protected int $queryCount = 0;
     /**
      * @var string
      * @Serializer\XmlAttribute
      * @Serializer\Type("string")
      * @Serializer\SerializedName("odpoved_typ")
      */
-    protected string $responseType = 'Standard';
+    protected string $responseType = 'Basic';
     /**
      * @var string
      * @Serializer\XmlAttribute
@@ -41,18 +43,23 @@ class AresResponse
     protected string $requestId;
 
     /**
-     * @var Response[]
-     * @Serializer\Type("array<HelpPC\Ares\Entity\Response\Response>")
+     * @var Collection<int, Response>
+     * @Serializer\Type("ArrayCollection<HelpPC\Ares\Entity\Response\Response>")
      * @Serializer\XmlList(inline=true, entry="are:Odpoved")
      */
-    protected array $response;
+    protected Collection $response;
 
     /**
-     * @return Response[]
+     * @return Collection<int, Response>
      */
-    public function getResponse(): array
+    public function getResponse(): Collection
     {
         return $this->response;
+    }
+
+    public function __construct()
+    {
+        $this->response = new ArrayCollection();
     }
 
 }

@@ -5,12 +5,10 @@ namespace HelpPC\Ares\Entity;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @Serializer\XmlRoot(name="are:Ares_dotazy",namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1")
- * @Serializer\XmlNamespace(uri="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1",prefix="are")
+ * @Serializer\XmlRoot(name="v:Ares_dotazy",namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_request_orrg/v_1.0.0")
  */
 class AresQuery
 {
-
     /**
      * @var \DateTimeImmutable
      * @Serializer\XmlAttribute()
@@ -29,7 +27,7 @@ class AresQuery
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("dotaz_typ")
      */
-    protected string $queryType = 'Standard';
+    protected string $queryType = 'Basic';
     /**
      * @var string
      * @Serializer\XmlAttribute
@@ -47,19 +45,24 @@ class AresQuery
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("Id")
      */
-    protected string $requestId = 'ares_dotaz';
+    protected string $requestId = 'ares';
 
     /**
      * @var Query[]
-     * @Serializer\XmlList(inline = true, entry = "are:Dotaz")
+     * @Serializer\XmlList(inline = true, entry = "Dotaz")
      */
-    protected array $queries;
+    protected array $queries = [];
 
     public function __construct(string $applicantsEmail)
     {
         $this->applicantsEmail = $applicantsEmail;
         $this->queryDateTime = new \DateTimeImmutable();
         $this->queryCount = 0;
+    }
+
+    public function isValid(): bool
+    {
+        return count($this->queries) > 0;
     }
 
     public function addQuery(Query $query): AresQuery

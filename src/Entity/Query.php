@@ -2,103 +2,70 @@
 
 namespace HelpPC\Ares\Entity;
 
+use HelpPC\Ares\Exception\InvalidFormatException;
 use JMS\Serializer\Annotation as Serializer;
+use Nette\Utils\Strings;
 
 /**
- * @Serializer\XmlRoot(name="are:Dotaz",namespace="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1")
- * @Serializer\XmlNamespace(uri="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_answer/v_1.0.1",prefix="are")
- * @Serializer\XmlNamespace(uri="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_datatypes/v_1.0.1", prefix="v1")
+ * @Serializer\XmlRoot(name="Dotaz")
  */
 class Query
 {
-
     /**
      * @var int
      * @Serializer\Type("int")
      * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Pomocne_ID")
+     * @Serializer\SerializedName("Pomocne_ID")
      */
     protected int $id;
-
     /**
      * @var string
      * @Serializer\Type("string")
      * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Typ_vyhledani")
+     * @Serializer\SerializedName("ICO")
      */
-    protected string $searchType = 'free';
-    /**
-     * @var KeyItems
-     * @Serializer\Type("HelpPC\Ares\Entity\KeyItems")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Klicove_polozky")
-     */
-    protected KeyItems $keyItems;
-    /**
-     * @var string|null
-     * @Serializer\SkipWhenEmpty()
-     * @Serializer\Type("string")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Nazev_obce")
-     */
-    protected ?string $city = NULL;
-    /**
-     * @var int|null
-     * @Serializer\SkipWhenEmpty()
-     * @Serializer\Type("int")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Pravni_forma")
-     */
-    protected ?int $legalForm = NULL;
+    protected string $identificationNumber;
     /**
      * @var \DateTimeImmutable
      * @Serializer\XmlElement(cdata=false)
      * @Serializer\Type("DateTimeImmutable<'Y-m-d','Europe/Prague'>")
-     * @Serializer\SerializedName("are:Datum_platnosti")
-     */
-    protected \DateTimeImmutable $expirationDate;
-    /**
-     * @var int|null
+     * @Serializer\SerializedName("Datum_platnosti")
      * @Serializer\SkipWhenEmpty()
-     * @Serializer\Type("string")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Typ_registru/v:Kod")
      */
-    protected ?int $codeOfRegistryType = NULL;
-    /**
-     * @var string|null
-     * @Serializer\SkipWhenEmpty()
-     * @Serializer\Type("string")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Typ_registru/v:Text")
-     */
-    protected ?string $textOfRegisterType = NULL;
-    /**
-     * @var int
-     * @Serializer\Type("int")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Max_pocet")
-     */
-    protected int $maxRecord = 10;
+    protected ?\DateTimeImmutable $expirationDate = NULL;
     /**
      * @var bool
      * @Serializer\Type("boolean")
      * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Diakritika")
-     */
-    protected bool $diacritics = TRUE;
-    /**
-     * @var bool
-     * @Serializer\Type("boolean")
-     * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Aktivni")
+     * @Serializer\SerializedName("Aktivni")
+     * @Serializer\SkipWhenEmpty()
      */
     protected bool $active = TRUE;
     /**
+     * @Serializer\Type("int")
+     * @Serializer\XmlElement(cdata=false)
+     * @Serializer\SerializedName("Klic_ARES")
+     */
+    private ?int $aresKey = NULL;
+    /**
+     * @Serializer\Type("int")
+     * @Serializer\XmlElement(cdata=false)
+     * @Serializer\SerializedName("ID_vety")
+     */
+    private ?int $sentencesId = NULL;
+    /**
+     * @Serializer\Type("int")
+     * @Serializer\XmlElement(cdata=false)
+     * @Serializer\SerializedName("Rozsah")
+     * @Serializer\SkipWhenEmpty()
+     */
+    private ?int $range = NULL;
+    /**
      * @var bool
      * @Serializer\Type("boolean")
      * @Serializer\XmlElement(cdata=false)
-     * @Serializer\SerializedName("are:Adr_puv")
+     * @Serializer\SerializedName("Adr_puv")
+     * @Serializer\SkipWhenEmpty()
      */
     protected bool $adrPuv = FALSE;
 
@@ -113,47 +80,15 @@ class Query
         return $this;
     }
 
-    public function getSearchType(): string
+    public function getIdentificationNumber(): string
     {
-        return $this->searchType;
+        return $this->identificationNumber;
     }
 
-    public function setSearchType(string $searchType): Query
+    public function setIdentificationNumber(string $identificationNumber): Query
     {
-        $this->searchType = $searchType;
-        return $this;
-    }
-
-    public function getKeyItems(): KeyItems
-    {
-        return $this->keyItems;
-    }
-
-    public function setKeyItems(KeyItems $keyItems): Query
-    {
-        $this->keyItems = $keyItems;
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): Query
-    {
-        $this->city = $city;
-        return $this;
-    }
-
-    public function getLegalForm(): ?int
-    {
-        return $this->legalForm;
-    }
-
-    public function setLegalForm(?int $legalForm): Query
-    {
-        $this->legalForm = $legalForm;
+        $this->checkIdentificationNumber($identificationNumber);
+        $this->identificationNumber = $identificationNumber;
         return $this;
     }
 
@@ -168,50 +103,6 @@ class Query
         return $this;
     }
 
-    public function getCodeOfRegistryType(): ?int
-    {
-        return $this->codeOfRegistryType;
-    }
-
-    public function setCodeOfRegistryType(?int $codeOfRegistryType): Query
-    {
-        $this->codeOfRegistryType = $codeOfRegistryType;
-        return $this;
-    }
-
-    public function getTextOfRegisterType(): ?string
-    {
-        return $this->textOfRegisterType;
-    }
-
-    public function setTextOfRegisterType(?string $textOfRegisterType): Query
-    {
-        $this->textOfRegisterType = $textOfRegisterType;
-        return $this;
-    }
-
-    public function getMaxRecord(): int
-    {
-        return $this->maxRecord;
-    }
-
-    public function setMaxRecord(int $maxRecord): Query
-    {
-        $this->maxRecord = $maxRecord;
-        return $this;
-    }
-
-    public function isDiacritics(): bool
-    {
-        return $this->diacritics;
-    }
-
-    public function setDiacritics(bool $diacritics): Query
-    {
-        $this->diacritics = $diacritics;
-        return $this;
-    }
-
     public function isActive(): bool
     {
         return $this->active;
@@ -220,6 +111,39 @@ class Query
     public function setActive(bool $active): Query
     {
         $this->active = $active;
+        return $this;
+    }
+
+    public function getAresKey(): ?int
+    {
+        return $this->aresKey;
+    }
+
+    public function setAresKey(?int $aresKey): Query
+    {
+        $this->aresKey = $aresKey;
+        return $this;
+    }
+
+    public function getSentencesId(): ?int
+    {
+        return $this->sentencesId;
+    }
+
+    public function setSentencesId(?int $sentencesId): Query
+    {
+        $this->sentencesId = $sentencesId;
+        return $this;
+    }
+
+    public function getRange(): ?int
+    {
+        return $this->range;
+    }
+
+    public function setRange(?int $range): Query
+    {
+        $this->range = $range;
         return $this;
     }
 
@@ -234,5 +158,39 @@ class Query
         return $this;
     }
 
+    private function checkIdentificationNumber(string $identificationNumber): bool
+    {
+        $identificationNumber = Strings::padLeft($identificationNumber, 8, '0');
+
+// be liberal in what you receive
+        $ic = \preg_replace('#\s+#', '', $identificationNumber);
+
+        // má požadovaný tvar?
+        if (!\preg_match('#^\d{8}$#', $identificationNumber)) {
+            throw new InvalidFormatException('Identification number doesn\`t have valid format.');
+        }
+
+        // kontrolní součet
+        $a = 0;
+
+        for ($i = 0; $i < 7; ++$i) {
+            $a += (int) $identificationNumber[$i] * (8 - $i);
+        }
+
+        $a %= 11;
+
+        if (0 === $a) {
+            $c = 1;
+        } elseif (1 === $a) {
+            $c = 0;
+        } else {
+            $c = 11 - $a;
+        }
+
+        if (!((int) $identificationNumber[7] === $c)) {
+            throw new InvalidFormatException('Identification number is not valid.');
+        }
+        return TRUE;
+    }
 
 }
