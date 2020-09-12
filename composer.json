@@ -14,7 +14,7 @@
     "ext-curl": "*",
     "ext-openssl": "*",
     "ext-dom": "*",
-    "guzzlehttp/guzzle": "^6.3",
+    "guzzlehttp/guzzle": "^7.0",
     "nette/utils": "^3.0",
     "doctrine/collections": "^1.5",
     "symfony/yaml": "^4.2",
