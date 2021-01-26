@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class AresQuery
 {
+    
     /**
      * @Serializer\XmlAttribute()
      * @Serializer\Type("DateTimeImmutable<'Y-m-d\TH:i:s','Europe/Prague'>")

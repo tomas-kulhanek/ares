@@ -109,7 +109,7 @@ class Client
         if (empty($clearXml)) {
             throw new Exception();
         }
-        
+
         return $this->serializer->deserialize($clearXml, AresResponse::class, 'xml');
     }
 }
