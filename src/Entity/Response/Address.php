@@ -3,7 +3,6 @@
 namespace HelpPC\Ares\Entity\Response;
 
 use JMS\Serializer\Annotation as Serializer;
-use function GuzzleHttp\Psr7\str;
 
 /**
  * @Serializer\XmlNamespace(uri="http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/ares/ares_datatypes/v_1.0.3",prefix="D")
