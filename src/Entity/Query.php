@@ -4,7 +4,6 @@ namespace HelpPC\Ares\Entity;
 
 use HelpPC\Ares\Exception\InvalidFormatException;
 use JMS\Serializer\Annotation as Serializer;
-use Nette\Utils\Strings;
 
 /**
  * @Serializer\XmlRoot(name="Dotaz")
@@ -92,7 +91,7 @@ class Query
         return $this;
     }
 
-    public function getExpirationDate(): \DateTimeImmutable
+    public function getExpirationDate(): ?\DateTimeImmutable
     {
         return $this->expirationDate;
     }
@@ -160,7 +159,7 @@ class Query
 
     private function checkIdentificationNumber(string $identificationNumber): bool
     {
-        $identificationNumber = Strings::padLeft($identificationNumber, 8, '0');
+        $identificationNumber = str_pad($identificationNumber, 8, '0', STR_PAD_LEFT);
 
 // be liberal in what you receive
         $ic = \preg_replace('#\s+#', '', $identificationNumber);

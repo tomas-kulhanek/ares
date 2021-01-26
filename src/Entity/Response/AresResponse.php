@@ -2,8 +2,6 @@
 
 namespace HelpPC\Ares\Entity\Response;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
@@ -43,23 +41,18 @@ class AresResponse
     protected string $requestId;
 
     /**
-     * @var Collection<int, Response>
-     * @Serializer\Type("ArrayCollection<HelpPC\Ares\Entity\Response\Response>")
+     * @var Response[]
+     * @Serializer\Type("array<HelpPC\Ares\Entity\Response\Response>")
      * @Serializer\XmlList(inline=true, entry="are:Odpoved")
      */
-    protected Collection $response;
+    protected array $response =[];
 
     /**
-     * @return Collection<int, Response>
+     * @return Response[]
      */
-    public function getResponse(): Collection
+    public function getResponse(): array
     {
         return $this->response;
-    }
-
-    public function __construct()
-    {
-        $this->response = new ArrayCollection();
     }
 
 }

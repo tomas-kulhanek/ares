@@ -2,8 +2,6 @@
 
 namespace HelpPC\Ares\Entity\Response;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 
 
@@ -65,16 +63,11 @@ class Response
     protected ?TradeRegister $tradeRegister = NULL;
 
     /**
-     * @var Collection<int, Specialization>
-     * @Serializer\Type("ArrayCollection<HelpPC\Ares\Entity\Response\Specialization>")
+     * @var Specialization[]
+     * @Serializer\Type("array<HelpPC\Ares\Entity\Response\Specialization>")
      * @Serializer\XmlList(inline=true, entry="D:VBAS/D:Obory_cinnosti/child::*")
      */
-    protected Collection $specialization;
-
-    public function __construct()
-    {
-        $this->specialization = new ArrayCollection();
-    }
+    protected array $specialization = [];
 
     public function getId(): int
     {
@@ -122,9 +115,9 @@ class Response
     }
 
     /**
-     * @return Collection<int, Specialization>
+     * @return Specialization[]
      */
-    public function getSpecialization(): Collection
+    public function getSpecialization(): array
     {
         return $this->specialization;
     }

@@ -6,26 +6,27 @@ use HelpPC\Ares\Entity\AresQuery;
 use HelpPC\Ares\Entity\Response\AresResponse;
 use HelpPC\Ares\Exception\EmptyRequestException;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Client
 {
 
     private const WEBSERVICE_URL = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/xar.cgi';
 
-    private \GuzzleHttp\Client $guzzleHttp;
     private SerializerInterface $serializer;
+    private HttpClientInterface $httpClient;
 
-    public function __construct(SerializerInterface $serializer, \GuzzleHttp\Client $guzzleHttp)
+    public function __construct(SerializerInterface $serializer, HttpClientInterface $httpClient)
     {
-        $this->guzzleHttp = $guzzleHttp;
         $this->serializer = $serializer;
+        $this->httpClient = $httpClient;
     }
 
 
-    private function getXmlDocument(?string $xmlContent = NULL): \DOMDocument
+    private function getXmlDocument(?string $xmlContent = null): \DOMDocument
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
-        if ($xmlContent !== NULL) {
+        if ($xmlContent !== null) {
             $document->loadXML($xmlContent);
             return $document;
         }
@@ -36,12 +37,12 @@ class Client
     private function getValueByXpath(\DOMDocument $document, string $xpath): ?string
     {
         $domXpath = new \DOMXPath($document);
-        $result = NULL;
+        $result = null;
         $res = $domXpath->evaluate($xpath);
         if ($res instanceof \DOMNodeList) {
             foreach ($res as $node) {
                 if ($node instanceof \DOMElement || $node instanceof \DOMDocument) {
-                    $nodeValue = NULL;
+                    $nodeValue = null;
                     $children = $node->childNodes;
                     foreach ($children as $child) {
                         $nodeValue .= $document->saveXML($child);
@@ -66,8 +67,12 @@ class Client
         $requestDocument = $this->getXmlDocument();
         $requestDocumentXpath = new \DOMXPath($requestDocument);
 
+        if (!$requestDocument->documentElement) {
+            throw new \Exception();
+        }
+
         $bodyNode = $requestDocumentXpath->evaluate('//' . $requestDocument->documentElement->prefix . ':Body');
-        $new = $bodyNode[0]->ownerDocument->importNode($request->documentElement, TRUE);
+        $new = $bodyNode[0]->ownerDocument->importNode($request->documentElement, true);
         if ($bodyNode[0]->nextSibling) {
             $bodyNode[0]->insertBefore($new, $bodyNode[0]->nextSibling);
         } else {
@@ -81,21 +86,29 @@ class Client
             'SOAPAction' => '""',
 
         ];
-        $curl = [];
-        $curl[CURLOPT_TIMEOUT] = 60 * 2;
-        $curl[CURLOPT_CONNECTTIMEOUT] = 6;
 
-        $response = $this->guzzleHttp->post(self::WEBSERVICE_URL, ['curl' => $curl, 'headers' => $headers, 'body' => $requestDocument->saveXML()]);
+        $requestOptions = [
+            'headers' => [
+                'Connection' => 'Keep-Alive',
+                'Accept-Encoding' => 'gzip,deflate',
+                'Content-Type' => 'text/xml; charset=utf-8',
+                'SOAPAction' => '""',
+            ],
+            'body' => $requestDocument->saveXml(),
+        ];
 
-        $soapResponse = $this->getXmlDocument(
-            $response->getBody()->getContents()
-        );
+        $response = $this->httpClient->request('POST', self::WEBSERVICE_URL, $requestOptions);
 
-        return $this->serializer->deserialize(
-            $this->getValueByXpath($soapResponse, '//' . $soapResponse->documentElement->prefix . ':Body'),
-            AresResponse::class, 'xml'
-        );
+        $soapResponse = $this->getXmlDocument($response->getContent());
+
+        if (!$soapResponse->documentElement) {
+            throw new \Exception();
+        }
+        $clearXml = $this->getValueByXpath($soapResponse, '//' . $soapResponse->documentElement->prefix . ':Body');
+        if (empty($clearXml)) {
+            throw new \Exception();
+        }
+        
+        return $this->serializer->deserialize($clearXml, AresResponse::class, 'xml');
     }
-
-
 }
