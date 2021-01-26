@@ -2,7 +2,9 @@
 
 namespace HelpPC\Ares\Exception;
 
-class EmptyRequestException extends \Exception
+use Exception;
+
+class EmptyRequestException extends Exception
 {
 
 }

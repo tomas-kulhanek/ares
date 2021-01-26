@@ -12,28 +12,27 @@ class AresResponse
 {
 
     /**
-     * @var \DateTimeImmutable
      * @Serializer\XmlAttribute()
      * @Serializer\Type("DateTimeImmutable<'Y-m-d\TH:i:s','Europe/Prague'>")
      * @Serializer\SerializedName("odpoved_datum_cas")
      */
     protected \DateTimeImmutable $responseDateTime;
+
     /**
-     * @var int
      * @Serializer\Type("int")
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("dotaz_pocet")
      */
     protected int $queryCount = 0;
+
     /**
-     * @var string
      * @Serializer\XmlAttribute
      * @Serializer\Type("string")
      * @Serializer\SerializedName("odpoved_typ")
      */
     protected string $responseType = 'Basic';
+
     /**
-     * @var string
      * @Serializer\XmlAttribute
      * @Serializer\Type("string")
      * @Serializer\SerializedName("Id")

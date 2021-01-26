@@ -23,8 +23,7 @@
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <properties>
             <property name="rootNamespaces" type="array" value="
-                src=>HelpPC\CzechDataBox,
-                tests=>HelpPC\Test\CzechDataBox
+                src=>HelpPC\Ares
             "/>
         </properties>
     </rule>

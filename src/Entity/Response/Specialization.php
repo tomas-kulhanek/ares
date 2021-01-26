@@ -15,6 +15,7 @@ class Specialization
      * @Serializer\SerializedName("D:K")
      */
     protected string $code;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:T")

@@ -2,6 +2,7 @@
 
 namespace HelpPC\Ares;
 
+use Exception;
 use HelpPC\Ares\Entity\AresQuery;
 use HelpPC\Ares\Entity\Response\AresResponse;
 use HelpPC\Ares\Exception\EmptyRequestException;
@@ -68,7 +69,7 @@ class Client
         $requestDocumentXpath = new \DOMXPath($requestDocument);
 
         if (!$requestDocument->documentElement) {
-            throw new \Exception();
+            throw new Exception();
         }
 
         $bodyNode = $requestDocumentXpath->evaluate('//' . $requestDocument->documentElement->prefix . ':Body');
@@ -102,11 +103,11 @@ class Client
         $soapResponse = $this->getXmlDocument($response->getContent());
 
         if (!$soapResponse->documentElement) {
-            throw new \Exception();
+            throw new Exception();
         }
         $clearXml = $this->getValueByXpath($soapResponse, '//' . $soapResponse->documentElement->prefix . ':Body');
         if (empty($clearXml)) {
-            throw new \Exception();
+            throw new Exception();
         }
         
         return $this->serializer->deserialize($clearXml, AresResponse::class, 'xml');

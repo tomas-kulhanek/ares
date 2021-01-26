@@ -2,7 +2,9 @@
 
 namespace HelpPC\Ares\Exception;
 
-class InvalidFormatException extends \Exception
+use Exception;
+
+class InvalidFormatException extends Exception
 {
 
 }

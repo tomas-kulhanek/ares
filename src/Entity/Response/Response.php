@@ -14,53 +14,61 @@ use JMS\Serializer\Annotation as Serializer;
 class Response
 {
     /**
-     * @var int
      * @Serializer\Type("int")
      * @Serializer\XmlElement(cdata=false)
      * @Serializer\SerializedName("D:PID")
      */
     protected int $id;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:ICO")
      */
     protected string $identificationNumber;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:DIC")
      */
     protected ?string $vatNumber = NULL;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:OF")
      */
     protected string $companyName;
+    
     /**
      * @var \DateTimeImmutable
      * @Serializer\Type("DateTimeImmutable<'Y-m-d','Europe/Prague'>")
      * @Serializer\SerializedName("D:VBAS/D:DV")
      */
     protected \DateTimeImmutable $creationDate;
+    
     /**
      * @Serializer\Type("int")
      * @Serializer\SerializedName("D:VBAS/D:PF/D:KPF")
      */
     protected int $subjectTypeCode;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:PF/D:NPF")
      */
     protected string $subjectType;
+    
     /**
      * @Serializer\Type("HelpPC\Ares\Entity\Response\Address")
      * @Serializer\SerializedName("D:VBAS/D:AA")
      */
     protected ?Address $address = NULL;
+    
     /**
      * @Serializer\Type("HelpPC\Ares\Entity\Response\TradeRegister")
      * @Serializer\SerializedName("D:VBAS/D:RRZ")
      */
     protected ?TradeRegister $tradeRegister = NULL;
+    
 
     /**
      * @var Specialization[]

@@ -10,38 +10,37 @@ use JMS\Serializer\Annotation as Serializer;
 class AresQuery
 {
     /**
-     * @var \DateTimeImmutable
      * @Serializer\XmlAttribute()
      * @Serializer\Type("DateTimeImmutable<'Y-m-d\TH:i:s','Europe/Prague'>")
      * @Serializer\SerializedName("dotaz_datum_cas")
      */
     protected \DateTimeImmutable $queryDateTime;
+    
     /**
-     * @var int
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("dotaz_pocet")
      */
     protected int $queryCount;
+    
     /**
-     * @var string
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("dotaz_typ")
      */
     protected string $queryType = 'Basic';
+    
     /**
-     * @var string
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("vystup_format")
      */
     protected string $answerType = 'xml';
+    
     /**
-     * @var string
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("user_mail")
      */
     protected string $applicantsEmail;
+    
     /**
-     * @var string
      * @Serializer\XmlAttribute
      * @Serializer\SerializedName("Id")
      */

@@ -15,22 +15,25 @@ class TradeRegister
      * @Serializer\SerializedName("D:ZU/D:KZU")
      */
     protected ?int $licensingOfficeId = NULL;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:ZU/D:NZU")
      */
     protected ?string $licensingOffice = NULL;
+    
     /**
      * @Serializer\Type("int")
      * @Serializer\SerializedName("D:FU/D:KFU")
      */
     protected ?int $taxOfficeId = NULL;
+    
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:FU/D:NFU")
      */
     protected ?string $taxOffice = NULL;
-
+    
     public function getLicensingOfficeId(): ?int
     {
         return $this->licensingOfficeId;

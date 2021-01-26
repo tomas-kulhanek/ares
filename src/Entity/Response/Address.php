@@ -15,21 +15,25 @@ class Address
      * @Serializer\SerializedName("D:IDA")
      */
     protected int $id;
+
     /**
      * @Serializer\Type("int")
      * @Serializer\SerializedName("D:KS")
      */
     protected int $countryCode;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:NS")
      */
     protected string $country;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:NOK")
      */
     protected ?string $district = NULL;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:N")
@@ -41,26 +45,31 @@ class Address
      * @Serializer\SerializedName("D:NCO")
      */
     protected ?string $cityPart = NULL;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:NMC")
      */
     protected ?string $cityDistrict = NULL;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:NU")
      */
     protected ?string $street = NULL;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:CD")
      */
     protected ?string $descriptiveNumber = NULL;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:CO")
      */
     protected ?string $orientationNumber = NULL;
+
     /**
      * @Serializer\Type("int")
      * @Serializer\SerializedName("D:PSC")
