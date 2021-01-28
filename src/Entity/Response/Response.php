@@ -19,56 +19,64 @@ class Response
      * @Serializer\SerializedName("D:PID")
      */
     protected int $id;
-    
+
+    /**
+     * @Serializer\SkipWhenEmpty()
+     * @Serializer\Type("string")
+     * @Serializer\XmlElement(cdata=false)
+     * @Serializer\SerializedName("D:E/D:ET")
+     */
+    protected ?string $error = null;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:ICO")
      */
     protected string $identificationNumber;
-    
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:DIC")
      */
-    protected ?string $vatNumber = NULL;
-    
+    protected ?string $vatNumber = null;
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:OF")
      */
     protected string $companyName;
-    
+
     /**
      * @var \DateTimeImmutable
      * @Serializer\Type("DateTimeImmutable<'Y-m-d','Europe/Prague'>")
      * @Serializer\SerializedName("D:VBAS/D:DV")
      */
     protected \DateTimeImmutable $creationDate;
-    
+
     /**
      * @Serializer\Type("int")
      * @Serializer\SerializedName("D:VBAS/D:PF/D:KPF")
      */
     protected int $subjectTypeCode;
-    
+
     /**
      * @Serializer\Type("string")
      * @Serializer\SerializedName("D:VBAS/D:PF/D:NPF")
      */
     protected string $subjectType;
-    
+
     /**
      * @Serializer\Type("HelpPC\Ares\Entity\Response\Address")
      * @Serializer\SerializedName("D:VBAS/D:AA")
      */
-    protected ?Address $address = NULL;
-    
+    protected ?Address $address = null;
+
     /**
      * @Serializer\Type("HelpPC\Ares\Entity\Response\TradeRegister")
      * @Serializer\SerializedName("D:VBAS/D:RRZ")
      */
-    protected ?TradeRegister $tradeRegister = NULL;
-    
+    protected ?TradeRegister $tradeRegister = null;
+
 
     /**
      * @var Specialization[]
@@ -129,4 +137,15 @@ class Response
     {
         return $this->specialization;
     }
+
+    public function isOk(): bool
+    {
+        return empty($this->getError());
+    }
+
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
+
 }

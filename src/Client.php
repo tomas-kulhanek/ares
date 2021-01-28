@@ -109,7 +109,7 @@ class Client
         if (empty($clearXml)) {
             throw new Exception();
         }
-
+file_put_contents(__DIR__.'/../../../../var/ddd.xml',$clearXml);
         return $this->serializer->deserialize($clearXml, AresResponse::class, 'xml');
     }
 }
