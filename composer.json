@@ -14,7 +14,7 @@
     "ext-curl": "*",
     "ext-openssl": "*",
     "ext-dom": "*",
-    "symfony/http-client": "5.1.*",
+    "symfony/http-client": "^5.1",
     "symfony/yaml": "^5.1",
     "helppc/serializer": "^2.0"
   },
