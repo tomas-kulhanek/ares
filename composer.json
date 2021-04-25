@@ -14,9 +14,9 @@
     "ext-curl": "*",
     "ext-openssl": "*",
     "ext-dom": "*",
-    "symfony/http-client": "^5.1",
-    "symfony/yaml": "^5.1",
-    "helppc/serializer": "^2.0"
+    "symfony/http-client": "^5.2",
+    "symfony/yaml": "^5.2",
+    "tomas-kulhanek/serializer": "^1.0"
   },
   "require-dev": {
     "phpstan/phpstan": "^0.12.0"
